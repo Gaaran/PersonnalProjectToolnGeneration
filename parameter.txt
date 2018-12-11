@@ -1,0 +1,5 @@
+if head2 && chest2
+Y : 0.75
+
+if head2 && chest3
+Y : 1.1
