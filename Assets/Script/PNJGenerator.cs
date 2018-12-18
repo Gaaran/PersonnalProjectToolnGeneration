@@ -12,6 +12,8 @@ public class PNJGenerator : MonoBehaviour {
     [System.Serializable]//show struct in editor
     public struct StatsMinMax
     {
+        public string name;
+
         public int strMin;
         public int strMax;
 

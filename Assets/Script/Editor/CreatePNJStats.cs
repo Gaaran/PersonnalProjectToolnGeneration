@@ -31,10 +31,7 @@ public class CreatePNJStats : EditorWindow {
 
 
     private void OnGUI()
-    {
-        
-
-
+    {        
         GUILayout.BeginVertical();
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label("dex :");

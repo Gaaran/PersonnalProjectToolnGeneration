@@ -59,6 +59,11 @@ public class PNJWindowEditor : EditorWindow {
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("name :");
+        statsMin.name = EditorGUILayout.TextField(statsMin.name);
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
         GUILayout.Label("Archetype : ");
         EditorGUILayout.EndHorizontal();
 

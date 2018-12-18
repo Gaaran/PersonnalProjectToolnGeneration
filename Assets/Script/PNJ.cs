@@ -16,8 +16,7 @@ public class PNJ : MonoBehaviour {
 
     [SerializeField]
     Stats stats;
-
-
+    
 
     public Stats AccStats
     {
