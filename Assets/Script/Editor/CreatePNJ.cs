@@ -116,7 +116,7 @@ public class CreatePNJ : EditorWindow
                 }
                 else if (jsonFile.name.Contains("Windowed"))
                 {
-
+                    CreateWindowedPrefab(datas, localPath);
                 }
             }
             else
@@ -129,12 +129,12 @@ public class CreatePNJ : EditorWindow
     }
 
     void CreateStaticPrefab(JsonData data, string filePath)
-    {
+    {        
         GameObject hat;
         GameObject chest;
         GameObject arms;
         bool offSetOK = false;
-
+        
         PNJ.Stats stats = new PNJ.Stats();
 
         stats.str = (int)data["stats"]["str"];
@@ -207,86 +207,91 @@ public class CreatePNJ : EditorWindow
         Destroy(emptyGo);
     }
     //Faut finir ca
-    //void CreateWindowedPrefab(JsonData data, string filePath)
-    //{
-    //    GameObject hat;
-    //    GameObject chest;
-    //    GameObject arms;
-    //    bool offSetOK = false;
+    void CreateWindowedPrefab(JsonData data, string filePath)
+    {
+        GameObject hat;
+        GameObject chest;
+        GameObject arms;
+        bool offSetOK = false;
 
-    //    PNJGenerator.StatsMinMax statsMinMax = new PNJGenerator.StatsMinMax();
+        PNJGenerator.StatsMinMax statsMinMax = new PNJGenerator.StatsMinMax();
+        PNJ.Stats stats = new PNJ.Stats();
 
+        statsMinMax.strMax = (int)data["strMax"];
+        statsMinMax.strMin = (int)data["strMin"];
+        statsMinMax.dexMax = (int)data["dexMax"];
+        statsMinMax.dexMin = (int)data["dexMin"];
+        statsMinMax.intelMax = (int)data["intelMax"];
+        statsMinMax.intelMin = (int)data["intelMin"];
+        statsMinMax.name = (string)data["name"];
 
-    //    statsMinMax.strMax = (int)data["strMax"];
-    //    statsMinMax.strMin = (int)data["strMin"];
-    //    statsMinMax.dexMax = (int)data["dexMax"];
-    //    statsMinMax.dexMin = (int)data["dexMin"];
-    //    statsMinMax.intelMax = (int)data["intelMax"];
-    //    statsMinMax.intelMin = (int)data["intelMin"];
-    //    statsMinMax.name = (string)data["name"];
+        stats.str = Random.Range(statsMinMax.strMin +1, statsMinMax.strMax +1);
+        stats.dex = Random.Range(statsMinMax.dexMin +1, statsMinMax.dexMax +1);
+        stats.intel = Random.Range(statsMinMax.intelMin +1, statsMinMax.intelMax +1);
+        stats.name = statsMinMax.name;
+        
+        GameObject emptyGo = Instantiate(PNJGenerator.instance.vide);
+        emptyGo.transform.name = statsMinMax.name;
+        emptyGo.AddComponent<PNJ>();
+        emptyGo.GetComponent<PNJ>().AccStats = stats;
+        emptyGo.GetComponent<PNJ>().hasBeenCreated = true;
+        //str
+        if (stats.str > ((statsMinMax.strMax * 66) / 100))
+        {
+            //chest = PrefabUtility.CreatePrefab(filePath + "")
 
-    //    //GameObject emptyGo = PrefabUtility.CreatePrefab("Assets/Prefab/PNJEditor/EmptyGO.prefab", PNJGenerator.instance.vide);
-    //    GameObject emptyGo = Instantiate(PNJGenerator.instance.vide);
-    //    emptyGo.transform.name = stats.name;
-    //    emptyGo.AddComponent<PNJ>();
-    //    emptyGo.GetComponent<PNJ>().AccStats = stats;
-    //    //str
-    //    if (stats.str > (int)((PNJGenerator.instance.statsGiver.strMax * 66) / 100))
-    //    {
-    //        //chest = PrefabUtility.CreatePrefab(filePath + "")
+            chest = Instantiate(PNJGenerator.instance.chest1);
+            offSetOK = true;
+        }
+        else if (stats.str > ((statsMinMax.strMax * 33) / 100))
+        {
+            chest = Instantiate(PNJGenerator.instance.chest2);
+        }
+        else
+        {
+            chest = Instantiate(PNJGenerator.instance.chest3);
+        }
 
-    //        chest = Instantiate(PNJGenerator.instance.chest1);
-    //        offSetOK = true;
-    //    }
-    //    else if (stats.str > (int)((PNJGenerator.instance.statsGiver.strMax * 33) / 100))
-    //    {
-    //        chest = Instantiate(PNJGenerator.instance.chest2);
-    //    }
-    //    else
-    //    {
-    //        chest = Instantiate(PNJGenerator.instance.chest3);
-    //    }
+        //intel
+        if (stats.intel > ((statsMinMax.intelMax * 66) / 100))
+        {
+            hat = Instantiate(PNJGenerator.instance.head1);
+        }
+        else if (stats.intel > ((statsMinMax.intelMax * 33) / 100))
+        {
 
-    //    //intel
-    //    if (stats.intel > (int)((PNJGenerator.instance.statsGiver.intelMax * 66) / 100))
-    //    {
-    //        hat = Instantiate(PNJGenerator.instance.head1);
-    //    }
-    //    else if (stats.intel > (int)((PNJGenerator.instance.statsGiver.intelMax * 33) / 100))
-    //    {
+            hat = Instantiate(PNJGenerator.instance.head2);
 
-    //        hat = Instantiate(PNJGenerator.instance.head2);
+            if (offSetOK)
+            {
+                hat.transform.position += new Vector3(0.0f, 0.25f, 0.0f);
+            }
+        }
+        else
+        {
+            hat = new GameObject();
+            Debug.LogError("Y'a un blem ici, clique mwa dessus ! Jsuis pas censé rentré là dedans, jle fais pour intellicense");
+        }
 
-    //        if (offSetOK)
-    //        {
-    //            hat.transform.position += new Vector3(0.0f, 0.25f, 0.0f);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        hat = new GameObject();
-    //        Debug.LogError("Y'a un blem ici, clique mwa dessus ! Jsuis pas censé rentré là dedans, jle fais pour intellicense");
-    //    }
+        //dex
+        if (stats.dex > ((statsMinMax.dexMax * 66) / 100))
+        {
+            arms = Instantiate(PNJGenerator.instance.arms1);
+        }
+        else if (stats.dex > ((statsMinMax.dexMax * 33) / 100))
+        {
+            arms = Instantiate(PNJGenerator.instance.arms2);
+        }
+        else
+        {
+            arms = Instantiate(PNJGenerator.instance.arms3);
+        }
 
-    //    //dex
-    //    if (stats.dex > (int)((PNJGenerator.instance.statsGiver.dexMax * 66) / 100))
-    //    {
-    //        arms = Instantiate(PNJGenerator.instance.arms1);
-    //    }
-    //    else if (stats.dex > (int)((PNJGenerator.instance.statsGiver.dexMax * 33) / 100))
-    //    {
-    //        arms = Instantiate(PNJGenerator.instance.arms2);
-    //    }
-    //    else
-    //    {
-    //        arms = Instantiate(PNJGenerator.instance.arms3);
-    //    }
-
-    //    chest.transform.SetParent(emptyGo.transform);
-    //    hat.transform.SetParent(emptyGo.transform);
-    //    arms.transform.SetParent(emptyGo.transform);
-    //    filePath += emptyGo.name + ".prefab";
-    //    PrefabUtility.CreatePrefab(filePath, emptyGo);
-    //    Destroy(emptyGo);
-    //}
+        chest.transform.SetParent(emptyGo.transform);
+        hat.transform.SetParent(emptyGo.transform);
+        arms.transform.SetParent(emptyGo.transform);
+        filePath += emptyGo.name + ".prefab";
+        PrefabUtility.CreatePrefab(filePath, emptyGo);
+        Destroy(emptyGo);
+    }
 }

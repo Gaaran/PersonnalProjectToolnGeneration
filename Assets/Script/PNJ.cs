@@ -13,7 +13,7 @@ public class PNJ : MonoBehaviour {
         public int intel;
         public int wits;
     }
-
+    public bool hasBeenCreated = false;
     [SerializeField]
     Stats stats;
     
@@ -33,9 +33,14 @@ public class PNJ : MonoBehaviour {
 
     private void Start()
     {
+        Debug.Log(this.name);
+        Debug.Log(hasBeenCreated);
 
-        generateStats();
-        GiveDemBoody();
+        if (!hasBeenCreated)
+        {
+            generateStats();
+            GiveDemBoody();
+        }
 
     }
 
