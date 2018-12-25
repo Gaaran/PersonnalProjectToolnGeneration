@@ -13,6 +13,7 @@ public class PNJ : MonoBehaviour {
         public int intel;
         public int wits;
     }
+
     public bool hasBeenCreated = false;
     [SerializeField]
     Stats stats;
@@ -109,11 +110,11 @@ public class PNJ : MonoBehaviour {
         }
         //this.name = "";
         stats.name = "";
-        RandomizeName(PNJGenerator.instance.nameLength);
+        stats.name = RandomizeName(PNJGenerator.instance.nameLength);
         this.name = stats.name;
     } 
 
-    void RandomizeName(int nbSyllabes = 3)
+    static public string RandomizeName(int nbSyllabes = 3)
     {
 
         if (nbSyllabes > 6)
@@ -121,21 +122,22 @@ public class PNJ : MonoBehaviour {
 
         int randomizator = Random.Range(1, 3);
         bool isVoyelle = false;
+        string name = "";
 
         if (randomizator % 2 == 0)
         {
             //this.name += PNJGenerator.instance.voyelles[(int)Random.Range(0, 6)];
             //this.name = this.name.ToUpper();
-            stats.name += PNJGenerator.instance.voyelles[(int)Random.Range(0, 6)];
-            stats.name = stats.name.ToUpper();
+            name += PNJGenerator.instance.voyelles[(int)Random.Range(0, 6)];
+            name = name.ToUpper();
             isVoyelle = true;
         }
         else
         {
             //this.name += PNJGenerator.instance.consonnes[(int)Random.Range(0, 20)];
             //this.name = this.name.ToUpper();
-            stats.name += PNJGenerator.instance.consonnes[(int)Random.Range(0, 20)]; ;
-            stats.name = stats.name.ToUpper();
+            name += PNJGenerator.instance.consonnes[(int)Random.Range(0, 20)]; ;
+            name = name.ToUpper();
             isVoyelle = false;
         }
 
@@ -144,14 +146,16 @@ public class PNJ : MonoBehaviour {
             if (isVoyelle)
             {
                 //this.name += PNJGenerator.instance.consonnes[(int)Random.Range(0, 20)];
-                stats.name += PNJGenerator.instance.consonnes[(int)Random.Range(0, 20)];
+                name += PNJGenerator.instance.consonnes[(int)Random.Range(0, 20)];
             }
             else
             {
                 //this.name += PNJGenerator.instance.voyelles[(int)Random.Range(0, 6)];
-                stats.name += PNJGenerator.instance.voyelles[(int)Random.Range(0, 6)];
+                name += PNJGenerator.instance.voyelles[(int)Random.Range(0, 6)];
             }
             isVoyelle = !isVoyelle;
         }
+
+        return name;
     }
 }

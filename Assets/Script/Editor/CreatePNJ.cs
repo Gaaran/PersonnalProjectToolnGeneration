@@ -142,6 +142,8 @@ public class CreatePNJ : EditorWindow
         stats.intel = (int)data["stats"]["intel"];
         stats.name = (string)data["stats"]["name"];
 
+        //stats.name = PNJ.RandomizeName(5);
+
         //GameObject emptyGo = PrefabUtility.CreatePrefab("Assets/Prefab/PNJEditor/EmptyGO.prefab", PNJGenerator.instance.vide);
         GameObject emptyGo = Instantiate(PNJGenerator.instance.vide);
         emptyGo.transform.name = stats.name;
@@ -228,10 +230,10 @@ public class CreatePNJ : EditorWindow
         stats.str = Random.Range(statsMinMax.strMin +1, statsMinMax.strMax +1);
         stats.dex = Random.Range(statsMinMax.dexMin +1, statsMinMax.dexMax +1);
         stats.intel = Random.Range(statsMinMax.intelMin +1, statsMinMax.intelMax +1);
-        stats.name = statsMinMax.name;
+        stats.name = PNJ.RandomizeName(5);
         
         GameObject emptyGo = Instantiate(PNJGenerator.instance.vide);
-        emptyGo.transform.name = statsMinMax.name;
+        emptyGo.transform.name = stats.name;
         emptyGo.AddComponent<PNJ>();
         emptyGo.GetComponent<PNJ>().AccStats = stats;
         emptyGo.GetComponent<PNJ>().hasBeenCreated = true;
